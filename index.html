@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ideal Health — Recruitment Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #1B4F8A;
+      --navy-dark:   #0D2F57;
+      --blue:        #2E9ED6;
+      --blue-light:  #E8F5FC;
+      --green:       #8DC63F;
+      --green-light: #F2F9E8;
+      --slate:       #4A5568;
+      --mist:        #F4F8FC;
+      --white:       #FFFFFF;
+      --border:      #D6E4F0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--mist);
+      color: var(--navy-dark);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--navy);
+      padding: 0 2rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(11,31,58,0.18);
+    }
+
+    .nav-logo img {
+      height: 42px;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .nav-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--green);
+      background: rgba(141,198,63,0.15);
+      border: 1px solid rgba(141,198,63,0.35);
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #1a6aaa 100%);
+      padding: 72px 2rem 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(46,158,214,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(141,198,63,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      background: rgba(141,198,63,0.12);
+      border: 1px solid rgba(141,198,63,0.25);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .hero-eyebrow svg { width: 13px; height: 13px; fill: var(--green); }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 5vw, 3.1rem);
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      margin: 0 auto 44px;
+      line-height: 1.75;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat-number {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(255,255,255,0.15);
+      align-self: center;
+    }
+
+    /* MAIN */
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 52px 1.5rem 88px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 26px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label svg { width: 14px; height: 14px; fill: var(--blue); }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 52px;
+    }
+
+    @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 36px rgba(27,79,138,0.12);
+      transform: translateY(-3px);
+    }
+
+    .card-icon {
+      width: 50px; height: 50px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg { width: 24px; height: 24px; }
+    .card-icon.internal { background: var(--blue-light); }
+    .card-icon.internal svg { fill: var(--blue); }
+    .card-icon.candidate { background: var(--green-light); }
+    .card-icon.candidate svg { fill: var(--green); }
+
+    .card-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    .card-tag.internal { background: var(--blue-light); color: var(--blue); }
+    .card-tag.candidate { background: var(--green-light); color: #5a8a1a; }
+
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--slate);
+      line-height: 1.68;
+      flex: 1;
+    }
+
+    .card-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .field-chip {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--slate);
+      background: var(--mist);
+      border: 1px solid var(--border);
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      width: 100%;
+    }
+
+    .btn:hover { opacity: 0.87; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn svg { width: 16px; height: 16px; }
+
+    .btn-blue { background: var(--navy); color: var(--white); }
+    .btn-blue svg { fill: var(--white); }
+    .btn-green { background: var(--green); color: var(--white); }
+    .btn-green svg { fill: var(--white); }
+
+    /* HOW IT WORKS */
+    .how {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px;
+      margin-bottom: 52px;
+    }
+
+    .how h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 28px;
+    }
+
+    .steps { display: flex; flex-direction: column; }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 42px;
+      width: 2px;
+      height: calc(100% - 10px);
+      background: var(--border);
+    }
+
+    .step-dot {
+      width: 42px; height: 42px;
+      min-width: 42px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      border: 2px solid var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-dot svg { width: 17px; height: 17px; fill: var(--blue); }
+
+    .step-content { padding: 8px 0 30px; }
+
+    .step-content h4 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--navy-dark);
+      margin-bottom: 5px;
+    }
+
+    .step-content p {
+      font-size: 0.83rem;
+      color: var(--slate);
+      line-height: 1.65;
+    }
+
+    /* PIPELINE */
+    .pipeline {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px;
+      margin-bottom: 52px;
+    }
+
+    .pipeline h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 22px;
+    }
+
+    .pipeline-track {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pipeline-stage {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stage-pill {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 15px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .stage-arrow { color: var(--border); font-size: 1.1rem; }
+
+    .s-new        { background: #EBF3FB; color: #1B4F8A; }
+    .s-contacted  { background: #FFF4E0; color: #C47B0A; }
+    .s-interested { background: var(--green-light); color: #4a7a10; }
+    .s-cv         { background: #E3F2FD; color: #1565C0; }
+    .s-submitted  { background: #EDE7F6; color: #6A1B9A; }
+    .s-placed     { background: #E8F5FC; color: var(--navy); }
+    .s-no         { background: #FFEBEE; color: #B71C1C; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy-dark);
+      text-align: center;
+      padding: 28px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    footer span { color: rgba(255,255,255,0.65); }
+    footer .green { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <img src="data:image/jpeg;base64,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" alt="Ideal Health Logo" />
+    </div>
+    <span class="nav-badge">Internal Portal</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c5.33 0 8 2.67 8 4v2H4v-2c0-1.33 2.67-4 8-4z"/></svg>
+      Healthcare Staffing
+    </div>
+    <h1>Find, track and place<br/><em>the right candidates</em></h1>
+    <p>A private recruitment hub for Ideal Health. Log candidates, share application links, and move every hire through the pipeline in one place.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-number">2</div>
+        <div class="hero-stat-label">Entry Forms</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">7</div>
+        <div class="hero-stat-label">Pipeline Stages</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-number">∞</div>
+        <div class="hero-stat-label">Candidates</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- FORMS -->
+    <div class="section-label">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+      Entry Forms
+    </div>
+
+    <div class="cards">
+
+      <!-- INTERNAL FORM -->
+      <div class="card">
+        <div class="card-icon internal">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        </div>
+        <span class="card-tag internal">Recruiter Only</span>
+        <h2>Internal Candidate Entry</h2>
+        <p>Use this when you find someone on LinkedIn or CV Library. Log their full details, source, and notes directly into the database.</p>
+        <div class="card-fields">
+          <span class="field-chip">Name</span>
+          <span class="field-chip">Phone</span>
+          <span class="field-chip">Email</span>
+          <span class="field-chip">Job Title</span>
+          <span class="field-chip">Skills</span>
+          <span class="field-chip">Source</span>
+          <span class="field-chip">Status</span>
+          <span class="field-chip">CV Upload</span>
+          <span class="field-chip">Notes</span>
+        </div>
+        <a class="btn btn-blue" href="https://airtable.com/appCtPz5HI41Svcp9/paguaokB0FRNXTpRC/form" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM11 17H9v-2h2v2zm0-4H9v-4h2v4zm4 4h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+          Open Internal Form
+        </a>
+      </div>
+
+      <!-- CANDIDATE FORM -->
+      <div class="card">
+        <div class="card-icon candidate">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        </div>
+        <span class="card-tag candidate">Send to Candidate</span>
+        <h2>Candidate Application</h2>
+        <p>Share this link with a candidate directly. They fill in their details, upload their CV, and their profile lands straight in the database.</p>
+        <div class="card-fields">
+          <span class="field-chip">Name</span>
+          <span class="field-chip">Phone</span>
+          <span class="field-chip">Email</span>
+          <span class="field-chip">Job Title</span>
+          <span class="field-chip">Skills</span>
+          <span class="field-chip">Availability</span>
+          <span class="field-chip">CV Upload</span>
+        </div>
+        <a class="btn btn-green" href="https://airtable.com/appCtPz5HI41Svcp9/pagvZGseTlO76p1Vx/form" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+          Open Candidate Form
+        </a>
+      </div>
+
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-label">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      How It Works
+    </div>
+
+    <div class="how">
+      <h3>Recruitment workflow</h3>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-dot">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </div>
+          <div class="step-content">
+            <h4>Find a candidate</h4>
+            <p>Search LinkedIn or CV Library for candidates matching the open role requirements.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-dot">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+          </div>
+          <div class="step-content">
+            <h4>Make contact</h4>
+            <p>Message them on LinkedIn or CV Library. If interested, share the Candidate Application link or log them yourself using the Internal Form.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-dot">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+          </div>
+          <div class="step-content">
+            <h4>CV received</h4>
+            <p>Once the candidate submits their details and CV, their record is automatically saved to the Airtable database.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-dot">
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          </div>
+          <div class="step-content">
+            <h4>Track and place</h4>
+            <p>Update the candidate's status in Airtable — from New all the way through to Placed.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="section-label">
+      <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+      Candidate Pipeline
+    </div>
+
+    <div class="pipeline">
+      <h3>Status stages — update in Airtable</h3>
+      <div class="pipeline-track">
+        <div class="pipeline-stage">
+          <span class="stage-pill s-new">New</span>
+          <span class="stage-arrow">→</span>
+        </div>
+        <div class="pipeline-stage">
+          <span class="stage-pill s-contacted">Contacted</span>
+          <span class="stage-arrow">→</span>
+        </div>
+        <div class="pipeline-stage">
+          <span class="stage-pill s-interested">Interested</span>
+          <span class="stage-arrow">→</span>
+        </div>
+        <div class="pipeline-stage">
+          <span class="stage-pill s-cv">CV Received</span>
+          <span class="stage-arrow">→</span>
+        </div>
+        <div class="pipeline-stage">
+          <span class="stage-pill s-submitted">Submitted</span>
+          <span class="stage-arrow">→</span>
+        </div>
+        <div class="pipeline-stage">
+          <span class="stage-pill s-placed">Placed</span>
+        </div>
+        <div class="pipeline-stage" style="margin-left:auto;">
+          <span class="stage-pill s-no">Not Interested</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Ideal Health</span> &nbsp;·&nbsp; Recruitment Portal &nbsp;·&nbsp; Internal use only &nbsp;·&nbsp; Built by <span class="green">Nafidah Mauna</span>
+  </footer>
+
+</body>
+</html>
